@@ -5,7 +5,7 @@ class ThemePark(models.Model):
     """
     This class defines the Theme Park model, it has an Park ID and a Park Name
     """
-    park_id = models.CharField(max_length=10, primary_key=True, unique=True)
+    park_id = models.AutoField(primary_key=True)
     park_name = models.CharField(max_length=255)
     
     def __str__(self):
@@ -18,7 +18,7 @@ class ThemeParkArea(models.Model):
     """
     This class defines the Theme Park Area model, it has an Area ID and Area Name
     """
-    area_id = models.CharField(max_length=10, primary_key=True, unique=True)
+    area_id = models.AutoField(primary_key=True)
     area_name = models.CharField(max_length=255)
     park = models.ForeignKey(ThemePark, on_delete=models.CASCADE)
     
@@ -28,20 +28,6 @@ class ThemeParkArea(models.Model):
         """
         return self.area_name
 
-class Accessibility(models.Model):
-    """
-    Class representing the accessibility features of a theme park ride
-    """
-    wheelchair_access = models.BooleanField(default=False)
-    audio_description = models.BooleanField(default=False)
-    braille = models.BooleanField(default=False)
-    sign_language = models.BooleanField(default=False)
-    closed_captioning = models.BooleanField(default=False)
-    tactile_path = models.BooleanField(default=False)
-    other = models.BooleanField(default=False)
-    
-    def __str__(self):
-        return f'{self.id}'
 
 class ThemeParkRide(models.Model):
     """
@@ -50,7 +36,7 @@ class ThemeParkRide(models.Model):
     Age Restriction, Height Restriction, Ride Type, Ride Capacity, Ride duration, 
     opening hour, closing hour,undermaintenance 
     """
-    ride_id = models.CharField(max_length=10, primary_key=True, unique=True)
+    ride_id = models.AutoField(primary_key=True)
     ride_name = models.CharField(max_length=255)
     ride_description = models.TextField()
     ride_thumbnail = models.ImageField(upload_to='rides_images/')
@@ -64,7 +50,14 @@ class ThemeParkRide(models.Model):
     opening_hour = models.TimeField()
     closing_hour = models.TimeField(default='22:00:00')
     under_maintenance = models.BooleanField(default=False)
-    accesibility = models.ForeignKey(Accessibility, on_delete=models.CASCADE, null=True)
+    
+    accessibility_wheelchair_access = models.BooleanField(default=False)
+    accessibility_audio_description = models.BooleanField(default=False)
+    accessibility_braille = models.BooleanField(default=False)
+    accessibility_sign_language = models.BooleanField(default=False)
+    accessibility_closed_captioning = models.BooleanField(default=False)
+    accessibility_tactile_path = models.BooleanField(default=False)
+    accessibility_other = models.BooleanField(default=False)
 
     def __str__(self):
         """
